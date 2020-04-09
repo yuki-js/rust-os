@@ -9,9 +9,9 @@ jobs:
           keys:
             - cache-{{ checksum "Cargo.toml" }}
       - run:
-          name: "make run"
+          name: "make"
           command: |
-            make run
+            make
       - save_cache:
           paths:
             - target/
