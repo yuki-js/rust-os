@@ -17,3 +17,6 @@ jobs:
             - target/
             - ~/.cargo
           key: cache-{{ checksum "Cargo.toml" }}
+      - store_artifacts:
+          path: build/haribote.img
+          destination: haribote.img
