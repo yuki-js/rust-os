@@ -28,3 +28,12 @@ pub fn set_palette() {
     }
     io::store_eflags(eflags);
 }
+
+pub fn boxfill8(vram: *mut u8, xsize: u32, c: u8, x0: u32,y0: u32, x1: u32, y1: u32){
+    for i in y0..=y1 {
+        for j in x0..=x1 {
+            let p = unsafe { &mut *(vram.offset((i*xsize + j)as isize)) };
+            *p = c;
+        }
+    }
+}

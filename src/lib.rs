@@ -11,12 +11,11 @@ mod palette;
 #[start]
 pub extern "C" fn haribote_os() -> ! {
     palette::set_palette();
-    unsafe {
-        for i in 0..=0xffff {
-            let p = &mut *((0xa0000 + i) as *mut u8);
-            *p = (i & 0x0f) as u8;
-        }
-    }
+    let p = 0xa0000 as *mut u8;
+    palette::boxfill8(p, 320, 1,  20,  20, 120, 120);
+	  palette::boxfill8(p, 320, 2,  70,  50, 170, 150);
+	  palette::boxfill8(p, 320, 4, 120,  80, 220, 180);
+    
     loop {
         io::hlt();
     }
