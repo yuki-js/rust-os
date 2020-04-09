@@ -5,19 +5,18 @@
 use core::panic::PanicInfo;
 mod utils;
 
-#[no_mangle]
-fn draw(i: u32) {
-    let a: u8 = i as u8 & 0x0f;
-    let ptr = unsafe { &mut *(i as *mut u8) };
-    *ptr = a 
-}
+static HELLO: &[u8] = b"Hello World!";
 
 #[no_mangle]
 #[start]
 pub extern "C" fn haribote_os() -> ! {
-    // 本にある通り、0xa0000から0xaffffまで描画
-    for i in 0xa0000..0xaffff {
-      draw(i);
+    let vga_buffer = 0xb8000 as *mut u8;
+
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *vga_buffer.offset(i as isize * 2) = byte;
+            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
+        }
     }
     loop {
         utils::hlt();

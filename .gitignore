@@ -3,5 +3,5 @@ Cargo.lock
 /haribote
 /build
 .DS_Store
-vm.vmwarevm
+/vm.vmwarevm
 haribote.img
