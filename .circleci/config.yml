@@ -1,0 +1,19 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: yukijs/rust-os:latest
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "Cargo.toml" }}
+      - run:
+          name: "make run"
+          command: |
+            make run
+      - save_cache:
+          paths:
+            - target/
+            - ~/.cargo
+          key: cache-{{ checksum "Cargo.toml" }}
