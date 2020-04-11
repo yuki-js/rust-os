@@ -13,7 +13,7 @@
 	<key>scaledHighResolution</key>
 	<integer>3</integer>
 	<key>singleWindowFrame</key>
-	<string>{{2600, 0}, {600, 375}}</string>
+	<string>{{2558, 17}, {600, 375}}</string>
 	<key>singleWindowIsZoomed</key>
 	<false/>
 	<key>snapshotSizes</key>

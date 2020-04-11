@@ -41,3 +41,10 @@ pub extern "C" fn inthandler21() {
         io::hlt();
     }
 }
+
+pub extern "C" fn inthandler2c() {
+    io::print("Mouse");
+    loop {
+        io::hlt();
+    }
+}
