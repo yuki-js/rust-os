@@ -41,11 +41,11 @@ pub fn init_gdtidt() {
         set_gatedesc(&mut *(0x0026f821 as *mut GateDescriptor), handler!(inthandler21) as i32, 2 * 8, 0x008e);
 	      //set_gatedesc(&mut *idt.offset(0x27), (int) asm_inthandler27, 2 * 8, AR_INTGATE32);
 	      // set_gatedesc(&mut *idt.offset(0x2c), (int) asm_inthandler2c, 2 * 8, AR_INTGATE32);
-        let mut buf = [0u8; 64];
+        let mut buf = [0u8; 256];
         let msg: &str = io::write_to::show(
             &mut buf,
             format_args!("{:?}", *(0x002700001 as *mut SegmentDescriptor)),
-        ).unwrap();
+        ).map_err(|_| "error").unwrap();
         io::print(msg);
     }
 }

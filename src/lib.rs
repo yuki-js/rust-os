@@ -30,8 +30,9 @@ pub extern "C" fn haribote_os() -> ! {
 
     let xsize = binfo.scrnx;
     let ysize = binfo.scrny;
-
+    
     screen::init(vram, xsize, ysize);
+    desctable::init_gdtidt();
     screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF, 10, 10, 0x31);
     screen::put_char(vram, xsize, screen::Color::COL8_FF00FF, 10, 26, 'X' as u8);
     let mut buf = [0u8; 64];
@@ -48,7 +49,7 @@ pub extern "C" fn haribote_os() -> ! {
         10,
         "Hello world!",
     );
-    desctable::init_gdtidt();
+    
     loop {
         io::hlt();
     }
