@@ -32,11 +32,10 @@ pub fn init_pic() {
 }
 pub fn enable_pic(){
     io::out8(PIC0_IMR, 0xf9); /* PIC1とキーボードを許可(11111001) */
-	  io::out8(PIC1_IMR, 0xef); /* マウスを許可(11101111) */
+	  //io::out8(PIC1_IMR, 0xef); /* マウスを許可(11101111) */
 }
 
 pub extern "C" fn inthandler21() {
-    io::print("Keyboard");
     loop {
         io::hlt();
     }

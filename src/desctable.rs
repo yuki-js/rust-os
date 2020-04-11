@@ -37,7 +37,6 @@ pub fn init_gdtidt() {
         }
         io::load_idtr(0x7ff, 0x0026f800);
         set_gatedesc(&mut *((0x0026f800 + 0x21 * 8) as *mut GateDescriptor), handler!(inthandler21) as u32, 2 * 8, 0x008e);
-	      //set_gatedesc(&mut *idt.offset(0x27), (int) asm_inthandler27, 2 * 8, AR_INTGATE32);
 	      set_gatedesc(&mut *((0x0026f800 + 0x2c * 8) as *mut GateDescriptor), handler!(inthandler2c) as u32, 2 * 8, 0x008e);
         
     }
