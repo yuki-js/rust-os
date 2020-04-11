@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>applicationsMenuVersion</key>
+	<real>2</real>
 	<key>disallowUpgrade</key>
 	<false/>
 	<key>hardDiskTotalSize</key>
@@ -11,7 +13,7 @@
 	<key>scaledHighResolution</key>
 	<integer>3</integer>
 	<key>singleWindowFrame</key>
-	<string>{{1208, 93}, {610, 381}}</string>
+	<string>{{1144, 609}, {396, 250}}</string>
 	<key>singleWindowIsZoomed</key>
 	<false/>
 	<key>snapshotSizes</key>
