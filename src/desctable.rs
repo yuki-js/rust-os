@@ -28,17 +28,17 @@ pub fn init_gdtidt() {
         let idt: *mut GateDescriptor = &mut *(0x0026f800 as *mut GateDescriptor);
 
         for i in 0..8192 {
-            set_segmdesc(&mut *gdt.offset(i), 0, 0, 0);
+            set_segmdesc(&mut *((0x002700000 + i) as *mut SegmentDescriptor), 0, 0, 0);
         }
-        set_segmdesc(&mut *gdt.offset(1), 0xffffffff, 0x00000000, 0x4092);
-        set_segmdesc(&mut *gdt.offset(2), 0x0007ffff, 0x00280000, 0x409a);
+        set_segmdesc(&mut *(0x002700001 as *mut SegmentDescriptor), 0xffffffff, 0x00000000, 0x4092);
+        set_segmdesc(&mut *(0x002700002 as *mut SegmentDescriptor), 0x0007ffff, 0x00280000, 0x409a);
         io::load_gdtr(0xffff, 0x00270000);
         
         for i in 0..256 {
-            set_gatedesc(&mut *idt.offset(i), 0, 0, 0);
+            set_gatedesc(&mut *((0x0026f800 + i) as *mut GateDescriptor), 0, 0, 0);
         }
         io::load_idtr(0x7ff, 0x0026f800);
-        set_gatedesc(&mut *idt.offset(0x21), handler!(inthandler21) as i32, 2 * 8, 0x008e);
+        set_gatedesc(&mut *(0x0026f821 as *mut GateDescriptor), handler!(inthandler21) as i32, 2 * 8, 0x008e);
 	      //set_gatedesc(&mut *idt.offset(0x27), (int) asm_inthandler27, 2 * 8, AR_INTGATE32);
 	      // set_gatedesc(&mut *idt.offset(0x2c), (int) asm_inthandler2c, 2 * 8, AR_INTGATE32);
         let mut buf = [0u8; 64];
