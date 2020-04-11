@@ -1602,3 +1602,5 @@
 2020-04-12T03:07:58.002+09:00| mks| I125: SWBWindow: Number of MKSWindows changed: 1 rendering MKSWindow(s) of total 2.
 2020-04-12T03:09:33.297+09:00| mks| I125: SWBWindow: Number of MKSWindows changed: 2 rendering MKSWindow(s) of total 2.
 2020-04-12T03:09:34.084+09:00| mks| I125: SWBWindow: Number of MKSWindows changed: 1 rendering MKSWindow(s) of total 2.
+2020-04-12T03:10:43.593+09:00| vmx| I125: GuestRpcSendTimedOut: message to toolbox timed out.
+2020-04-12T03:10:43.593+09:00| vmx| I125: Vix: [guestCommands.c:1945]: Error VIX_E_TOOLS_NOT_RUNNING in VMAutomationTranslateGuestRpcError(): ゲストで VMware Tools が実行していません

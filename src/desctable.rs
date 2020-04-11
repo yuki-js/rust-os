@@ -44,7 +44,7 @@ pub fn init_gdtidt() {
         let mut buf = [0u8; 64];
         let msg: &str = io::write_to::show(
             &mut buf,
-            format_args!("{:?}: {:?}", gdt.offset(1), *gdt.offset(1)),
+            format_args!("{:?}", *(0x002700001 as *mut SegmentDescriptor)),
         ).unwrap();
         io::print(msg);
     }
