@@ -30,15 +30,14 @@ pub fn init_pic() {
     io::out8(PIC0_IMR, 0xfb); /* 11111011 PIC1以外は全て禁止 */
     io::out8(PIC1_IMR, 0xff); /* 11111111 全ての割り込みを受け付けない */
 }
+pub fn enable_pic(){
+    io::out8(PIC0_IMR, 0xf9); /* PIC1とキーボードを許可(11111001) */
+	  io::out8(PIC1_IMR, 0xef); /* マウスを許可(11101111) */
+}
 
 pub extern "C" fn inthandler21() {
-    let binfo = unsafe { &*(0x0ff0 as *const crate::BootInfo) };
-    screen::put_string(
-        binfo.vram,
-        binfo.scrnx,
-        screen::Color::COL8_00FFFF,
-        26,
-        30,
-        "Keyboard Interrupt",
-    );
+    io::print("Keyboard");
+    loop {
+        io::hlt();
+    }
 }

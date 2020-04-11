@@ -36,15 +36,10 @@ pub fn init_gdtidt() {
             set_gatedesc(&mut *((0x0026f800 + i) as *mut GateDescriptor), 0, 0, 0);
         }
         io::load_idtr(0x7ff, 0x0026f800);
-        set_gatedesc(&mut *(0x0026f821 as *mut GateDescriptor), handler!(inthandler21) as i32, 2 * 8, 0x008e);
+        set_gatedesc(&mut *(0x0026f821 as *mut GateDescriptor), handler!(inthandler21) as u32, 2 * 8, 0x008e);
 	      //set_gatedesc(&mut *idt.offset(0x27), (int) asm_inthandler27, 2 * 8, AR_INTGATE32);
 	      // set_gatedesc(&mut *idt.offset(0x2c), (int) asm_inthandler2c, 2 * 8, AR_INTGATE32);
-        let mut buf = [0u8; 256];
-        let msg: &str = io::write_to::show(
-            &mut buf,
-            format_args!("{:?}", handler!(inthandler21) as i32),
-        ).map_err(|_| "error").unwrap();
-        io::print(msg);
+        
     }
 }
 pub fn set_segmdesc(sd: &mut SegmentDescriptor, mut limit: u32, base: i32, mut ar: i32) {
@@ -59,7 +54,7 @@ pub fn set_segmdesc(sd: &mut SegmentDescriptor, mut limit: u32, base: i32, mut a
     sd.limit_high = (((limit >> 16) & 0x0f) | ((ar >> 8) & 0xf0) as u32) as u8;
     sd.base_high = ((base >> 24) & 0xff) as u8;
 }
-pub fn set_gatedesc(gd: &mut GateDescriptor, offset: i32, selector: u16, ar: i32) {
+pub fn set_gatedesc(gd: &mut GateDescriptor, offset: u32, selector: u16, ar: i32) {
     gd.offset_low = (offset & 0xffff) as u16;
     gd.selector = selector as u16;
     gd.dw_count = ((ar >> 8) & 0xff) as u8;

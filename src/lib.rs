@@ -33,9 +33,10 @@ pub extern "C" fn haribote_os() -> ! {
     
     screen::init(vram, xsize, ysize);
     desctable::init_gdtidt();
+    io::sti();
     screen::put_char(vram, xsize, screen::Color::COL8_FF00FF, 10, 26, 'X' as u8);
     
-    
+    interrupt::enable_pic();
     loop {
         io::hlt();
     }

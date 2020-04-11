@@ -24,5 +24,7 @@
 	<integer>0</integer>
 	<key>snapshotsVMDKSize</key>
 	<integer>0</integer>
+	<key>viewMode</key>
+	<integer>1</integer>
 </dict>
 </plist>
