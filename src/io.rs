@@ -69,3 +69,46 @@ pub fn store_eflags(eflags: u32) {
         asm!("POPFD"::::"intel");
     }
 }
+
+#[repr(C, packed)]
+struct Dtr {
+    limit: i16,
+    addr: i32
+}
+
+pub fn load_gdtr(limit: i32, addr: i32) {
+    unsafe {
+        asm!("LGDT ($0)" :: "r"(&Dtr { limit: limit as i16, addr }) : "memory")
+    }
+}
+
+pub fn load_idtr(limit: i32, addr: i32) {
+    unsafe {
+        asm!("LIDT ($0)" :: "r"(&Dtr { limit: limit as i16, addr }) : "memory")
+    }
+}
+
+#[macro_export]
+macro_rules! handler {
+    ($name: ident) => {{
+        pub extern "C" fn wrapper() {
+            unsafe {
+                asm!("PUSH ES
+                      PUSH DS
+                      PUSHAD
+                      MOV EAX,ESP
+                      PUSH EAX
+                      MOV AX,SS
+                      MOV DS,AX
+                      MOV ES,AX" : : : : "intel", "volatile");
+                asm!("CALL $0" : : "r"($name as extern "C" fn()) : : "intel");
+                asm!("POP EAX
+                    POPAD
+                    POP DS
+                    POP ES
+                    IRETD" : : : : "intel", "volatile");
+            }
+        }
+        wrapper
+    }}
+}

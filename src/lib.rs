@@ -3,12 +3,14 @@
 #![feature(start)]
 
 use core::panic::PanicInfo;
+mod font;
 mod io;
 mod screen;
-mod font;
+mod desctable;
+mod interrupt;
 
 #[repr(C)]
-struct BootInfo {
+pub struct BootInfo {
     cyls: u8,
     leds: u8,
     vmode: u8,
@@ -32,8 +34,15 @@ pub extern "C" fn haribote_os() -> ! {
     screen::init(vram, xsize, ysize);
     screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF, 10, 10, 0x31);
     screen::put_char(vram, xsize, screen::Color::COL8_FF00FF, 10, 26, 'X' as u8);
-    screen::put_string(vram, xsize, screen::Color::COL8_00FFFF, 26, 10, "Hello world!");
-    
+    screen::put_string(
+        vram,
+        xsize,
+        screen::Color::COL8_00FFFF,
+        26,
+        10,
+        "Hello world!",
+    );
+    desctable::init_gdtidt();
     loop {
         io::hlt();
     }
@@ -45,3 +54,4 @@ fn panic(_info: &PanicInfo) -> ! {
         io::hlt()
     }
 }
+
