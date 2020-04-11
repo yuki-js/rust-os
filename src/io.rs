@@ -119,7 +119,9 @@ pub fn print(st: &str){
     let vram = binfo.vram;
     let xsize = binfo.scrnx;
     for (i, ch) in st.chars().enumerate() {
-        screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF, 50 + (i as u16) * 8, 50 + (i as u16) * 4, ch as u8);
+        let x: u16 = ((i as u16) * 8)%300;
+        let y: u16 = 16*(((i as u16) * 8)/300 as u16);
+        screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF,x , y, ch as u8);
     }
 }
 
