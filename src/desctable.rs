@@ -2,6 +2,7 @@ use crate::handler;
 use crate::io;
 use crate::interrupt::inthandler21;
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct SegmentDescriptor {
     limit_low: u16,
@@ -11,7 +12,7 @@ pub struct SegmentDescriptor {
     limit_high: u8,
     base_high: u8,
 }
-
+#[derive(Debug)]
 #[repr(C)]
 pub struct GateDescriptor {
     offset_low: u16,
@@ -32,7 +33,7 @@ pub fn init_gdtidt() {
         set_segmdesc(&mut *gdt.offset(1), 0xffffffff, 0x00000000, 0x4092);
         set_segmdesc(&mut *gdt.offset(2), 0x0007ffff, 0x00280000, 0x409a);
         io::load_gdtr(0xffff, 0x00270000);
-
+        
         for i in 0..256 {
             set_gatedesc(&mut *idt.offset(i), 0, 0, 0);
         }
@@ -40,6 +41,12 @@ pub fn init_gdtidt() {
         set_gatedesc(&mut *idt.offset(0x21), handler!(inthandler21) as i32, 2 * 8, 0x008e);
 	      //set_gatedesc(&mut *idt.offset(0x27), (int) asm_inthandler27, 2 * 8, AR_INTGATE32);
 	      // set_gatedesc(&mut *idt.offset(0x2c), (int) asm_inthandler2c, 2 * 8, AR_INTGATE32);
+        let mut buf = [0u8; 64];
+        let msg: &str = io::write_to::show(
+            &mut buf,
+            format_args!("{:?}: {:?}", gdt.offset(1), *gdt.offset(1)),
+        ).unwrap();
+        io::print(msg);
     }
 }
 pub fn set_segmdesc(sd: &mut SegmentDescriptor, mut limit: u32, base: i32, mut ar: i32) {

@@ -34,6 +34,12 @@ pub extern "C" fn haribote_os() -> ! {
     screen::init(vram, xsize, ysize);
     screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF, 10, 10, 0x31);
     screen::put_char(vram, xsize, screen::Color::COL8_FF00FF, 10, 26, 'X' as u8);
+    let mut buf = [0u8; 64];
+    let msg: &str = io::write_to::show(
+        &mut buf,
+        format_args!("{:?}: {:?}", "Foo", "Bar"),
+    ).unwrap();
+    io::print(msg);
     screen::put_string(
         vram,
         xsize,
