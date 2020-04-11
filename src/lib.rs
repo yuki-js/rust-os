@@ -5,6 +5,7 @@
 use core::panic::PanicInfo;
 mod io;
 mod screen;
+mod font;
 
 #[repr(C)]
 struct BootInfo {
@@ -29,7 +30,10 @@ pub extern "C" fn haribote_os() -> ! {
     let ysize = binfo.scrny;
 
     screen::init(vram, xsize, ysize);
-    screen::put_font(vram, xsize, screen::Color::COL8_FFFFFF, 10, 10, &screen::FONT_A);
+    screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF, 10, 10, 0x31);
+    screen::put_char(vram, xsize, screen::Color::COL8_FF00FF, 10, 26, 'X' as u8);
+    screen::put_string(vram, xsize, screen::Color::COL8_00FFFF, 26, 10, "Hello world!");
+    
     loop {
         io::hlt();
     }
