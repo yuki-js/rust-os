@@ -23,15 +23,13 @@ pub struct GateDescriptor {
 }
 
 pub fn init_gdtidt() {
-    unsafe {
-        let gdt: *mut SegmentDescriptor = &mut *(0x002700000 as *mut SegmentDescriptor);
-        let idt: *mut GateDescriptor = &mut *(0x0026f800 as *mut GateDescriptor);
+    unsafe { 
 
         for i in 0..8192 {
-            set_segmdesc(&mut *((0x002700000 + i) as *mut SegmentDescriptor), 0, 0, 0);
+            set_segmdesc(&mut *((0x00270000 + i) as *mut SegmentDescriptor), 0, 0, 0);
         }
-        set_segmdesc(&mut *(0x002700001 as *mut SegmentDescriptor), 0xffffffff, 0x00000000, 0x4092);
-        set_segmdesc(&mut *(0x002700002 as *mut SegmentDescriptor), 0x0007ffff, 0x00280000, 0x409a);
+        set_segmdesc(&mut *(0x00270001 as *mut SegmentDescriptor), 0xffffffff, 0x00000000, 0x4092);
+        set_segmdesc(&mut *(0x00270002 as *mut SegmentDescriptor), 0x0007ffff, 0x00280000, 0x409a);
         io::load_gdtr(0xffff, 0x00270000);
         
         for i in 0..256 {
