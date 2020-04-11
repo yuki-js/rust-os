@@ -118,14 +118,9 @@ pub fn print(st: &str){
     let binfo = unsafe { &*(0x0ff0 as *const crate::BootInfo) };
     let vram = binfo.vram;
     let xsize = binfo.scrnx;
-    screen::put_string(
-        vram,
-        xsize,
-        screen::Color::COL8_00FFFF,
-        50,
-        50,
-        st,
-    );
+    for (i, ch) in st.chars().enumerate() {
+        screen::put_char(vram, xsize, screen::Color::COL8_FFFFFF, 50 + (i as u16) * 8, 50 + (i as u16) * 4, ch as u8);
+    }
 }
 
 pub mod write_to {

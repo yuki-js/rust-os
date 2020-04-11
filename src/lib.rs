@@ -41,14 +41,6 @@ pub extern "C" fn haribote_os() -> ! {
         format_args!("{:?}: {:?}", "Foo", "Bar"),
     ).unwrap();
     io::print(msg);
-    screen::put_string(
-        vram,
-        xsize,
-        screen::Color::COL8_00FFFF,
-        26,
-        10,
-        "Hello world!",
-    );
     
     loop {
         io::hlt();
