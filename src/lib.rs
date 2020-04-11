@@ -29,7 +29,7 @@ pub extern "C" fn haribote_os() -> ! {
     let ysize = binfo.scrny;
 
     screen::init(vram, xsize, ysize);
-
+    screen::put_font(vram, xsize, screen::Color::COL8_FFFFFF, 10, 10, &screen::FONT_A);
     loop {
         io::hlt();
     }

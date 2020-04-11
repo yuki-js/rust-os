@@ -39,6 +39,9 @@ const TABLE_RGB: [[u8; 3]; 16] = [
     [0x00, 0x84, 0x84], /* 14:暗い水色 */
     [0x84, 0x84, 0x84], /* 15:暗い灰色 */
 ];
+pub const FONT_A: [u8; 16] = [
+    0x00, 0x18, 0x18, 0x18, 0x18, 0x24, 0x24, 0x24, 0x24, 0x7e, 0x42, 0x42, 0x42, 0xe7, 0x00, 0x00,
+];
 pub fn set_palette() {
     let eflags = io::load_eflags();
     io::cli();
@@ -56,6 +59,19 @@ pub fn boxfill8(vram: *mut u8, xsize: u16, c: Color, x0: u16, y0: u16, x1: u16, 
         for j in x0..=x1 {
             let p = unsafe { &mut *(vram.offset((i * xsize + j) as isize)) };
             *p = c as u8;
+        }
+    }
+}
+
+pub fn put_font(vram: *mut u8, xsize: u16, c: Color, x: u16, y: u16, fontdata: &[u8]) {
+    for (i, line) in fontdata.iter().enumerate() {
+        let mut l = line.clone();
+        for j in 0..8 {
+            let p = unsafe { &mut *(vram.offset(((y + i as u16) * xsize + x + (7 - j) ) as isize)) };
+            if (l & 1u8) == 1 {
+                *p = c as u8;
+            }
+            l>>=1;
         }
     }
 }
